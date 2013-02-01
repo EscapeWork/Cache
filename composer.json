@@ -1,0 +1,33 @@
+{
+    "name": "escapework/cache", 
+    "description": "Library pra controle de cache", 
+    "type": "library", 
+    "license": "MIT", 
+
+    "authors": [
+        {
+            "name": "Luís Dalmolin", 
+            "email": "luis.nh@gmail.com", 
+            "homepage": "http://luisdalmolin.com.br", 
+            "role": "Web Developer"
+        }
+    ], 
+
+    "require": {
+        "php": ">=5.3.0"
+    }, 
+
+    "require-dev": {
+        "phpunit/phpunit": "@stable"
+    }, 
+
+    "autoload": {
+        "psr-0": {
+            "EscapeWork\\Cache": "src"
+        }
+    }, 
+
+    "config": {
+        "bin-dir": "bin"
+    }
+}

@@ -12,9 +12,4 @@ class DriverTest extends \PHPUnit_Framework_TestCase
     {
         $file = Driver::get('file');
     }
-
-    public function testGetApcDriverShouldWork()
-    {
-        $file = Driver::get('apc');
-    }
 }

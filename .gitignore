@@ -1,4 +1,6 @@
-logs
+logs/
+cache/
 bin/
 vendor/
 *.jpg
+tests/EscapeWork/Cache/cache

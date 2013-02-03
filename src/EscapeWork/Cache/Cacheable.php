@@ -2,11 +2,11 @@
 
 interface Cacheable
 {
-    public function set();
+    public function set( $key, $value = null );
 
-    public function get();
+    public function get( $key, $callback = null );
 
-    public function delete();
+    public function delete( $key );
 
     public function flush();
 }

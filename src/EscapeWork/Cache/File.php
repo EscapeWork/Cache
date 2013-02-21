@@ -14,7 +14,7 @@ class File implements Cacheable
     }
 
 
-    public function get( $key, $callback = null )
+    public function get( $key )
     {
         $file = static::$directory . $this->buildFileName( $key );
 
@@ -22,19 +22,8 @@ class File implements Cacheable
         {
             return unserialize( file_get_contents( $file ) );
         }
-        else
-        {
-            if( is_callable( $callback ) )
-            {
-                $value = call_user_func( $callback );
 
-                $this->set( $key, $value );
-
-                return $value;
-            }
-        }
-
-        return null;
+        return false;
     }
 
 

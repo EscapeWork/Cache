@@ -95,7 +95,6 @@ class Cache
     public static function setObject( $object )
     {
         static::$object = $object;
-        return $this;
     }
 
 

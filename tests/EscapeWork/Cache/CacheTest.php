@@ -3,11 +3,6 @@
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function setUp()
-    {
-
-    }
-
     public function assertPreConditions()
     {
         $this->assertTrue( class_exists('EscapeWork\Cache\Cache') );

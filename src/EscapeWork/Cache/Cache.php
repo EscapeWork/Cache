@@ -4,10 +4,9 @@ class Cache
 {
 
     /**
-     * Objeto pra dizer se o cache está ativo
-     */ 
-    private static $active = false;
-
+     * Singleton
+     */
+    private static $instance;
 
     /**
      * Objeto do cache 
@@ -18,33 +17,44 @@ class Cache
     /**
      * Tempo de cache 
      */ 
-    private static $time = 36000; # 10 horas 
+    private $time = 36000; # 10 horas 
 
 
     /**
      * Driver do cache
      */
-    private static $driver = 'file';
+    private $driver = null;
 
 
     /**
      * Namespace do contexto atual 
      */ 
-    public static 
+    public 
         $namespace    = null, 
         $namespaceKey = null;
 
 
     /**
-     * Setando como ativo ou não 
-     * 
-     * @access public 
-     * @param  boolean $active 
-     * @return void 
-     */ 
-    public static function setActive( $active )
+     * Retornando a instância
+     */
+    public static function getInstance($driver)
     {
-        self::$active = $active;
+        if( is_null( static::$instance ) )
+        {
+            return static::$instance = new Cache($driver);
+        }
+
+        return static::$instance;
+    }
+
+
+    /**
+     * Construtor
+     * @param string $driver com o tipo de driver desejado
+     */
+    private function __construct($driver)
+    {
+        static::setObject( Driver::get( $driver ) );
     }
 
 
@@ -55,11 +65,11 @@ class Cache
      * @param  string $namespace 
      * @return void 
      */ 
-    public static function setNamespace( $namespace )
+    public function setNamespace( $namespace )
     {
-        self::$namespace = $namespace;
+        $this->namespace = $namespace;
 
-        self::$namespaceKey = self::getNamespaceKey( $namespace );
+        $this->namespaceKey = $this->getNamespaceKey( $namespace );
     }
 
 
@@ -69,22 +79,9 @@ class Cache
      * @access public 
      * @return void 
      */ 
-    public static function clearNamespace()
+    public function clearNamespace()
     {
-        self::$namespace = null;
-    }
-
-
-    /**
-     * Verificando se o cache está ativo 
-     * 
-     * @static 
-     * @access public 
-     * @return boolean 
-     */ 
-    public function isActive()
-    {
-        return self::$active;
+        $this->namespace = null;
     }
 
 
@@ -97,7 +94,17 @@ class Cache
      */ 
     public static function setObject( $object )
     {
-        self::$object = $object;
+        static::$object = $object;
+        return $this;
+    }
+
+
+    /**
+     * Retornando o objeto 
+     */
+    public function getObject()
+    {
+        return static::$object;
     }
 
 
@@ -112,21 +119,18 @@ class Cache
      * @param string $namespaceKey 
      * @return mixed 
      */ 
-    public static function set( $key, $value, $namespace = null )
+    public function set( $key, $value, $namespace = null )
     {
-        if( self::isActive() )
+        if( is_null( $namespace ) )
         {
-            if( is_null( $namespace ) )
-            {
-                $namespaceKey = self::$namespaceKey;
-            }
-            else
-            {
-                $namespaceKey = self::getNamespaceKey( $namespace );
-            }
-
-            self::$object->set( $namespaceKey . $key, $value, false, self::$time );
+            $namespaceKey = $this->namespaceKey;
         }
+        else
+        {
+            $namespaceKey = $this->getNamespaceKey( $namespace );
+        }
+
+        $this->getObject()->set( $namespaceKey . $key, $value );
     }
 
 
@@ -138,20 +142,33 @@ class Cache
      * @param  string $namespaceKey 
      * @return mixed 
      */ 
-    public static function get( $key, $callback = null, $namespace = null )
+    public function get( $key, $callback = null, $namespace = null )
     {
-        if( self::isActive() )
-        {
-            if( is_null( $namespace ) )
-            {
-                $namespaceKey = self::$namespaceKey;
-            }
-            else
-            {
-                $namespaceKey = self::getNamespaceKey( $namespace );
-            }
+        $namespaceKey = $this->getNamespaceKey( $namespace );
 
-            return self::$object->get( $namespaceKey . $key );
+        $value = $this->getObject()->get( $namespaceKey . $key );
+
+        if( $value === false )
+        {
+            $value = $this->execute( $callback );
+        }
+
+        return $value;
+    }
+
+
+    /**
+     * Executando uma função de callback
+     *
+     * @access  private
+     * @param   closure $callback
+     * @return  mixed
+     */
+    private function execute( $callback )
+    {
+        if( is_callable( $callback ) )
+        {
+            return call_user_func_array( $callback );
         }
 
         return false;
@@ -165,14 +182,9 @@ class Cache
      * @param  string $key 
      * @return mixed 
      */ 
-    public static function delete( $key )
+    public function delete( $key )
     {
-        if( self::isActive() )
-        {
-            return self::$object->delete( self::$namespaceKey . $key );
-        }
-
-        return false;
+        return $this->getObject()->delete( $this->namespaceKey . $key );
     }
 
 
@@ -183,48 +195,48 @@ class Cache
      * @param  string $key 
      * @return mixed 
      */ 
-    public static function flush()
+    public function flush()
     {
-        if( self::isActive() )
-        {
-            return self::$object->flush();
-        }
-
-        return false;
+        return $this->getObject()->flush();
     }
 
 
     /**
      * Incrementando um namespace
-     * 
-     * @static 
+     *  
      * @access public 
      * @return void 
      */ 
-    public static function flushNamespace( $namespace )
+    public function flushNamespace( $namespace = null )
     {
-        if( self::isActive() )
+        if( is_null( $namespace ) )
         {
-            self::$object->set('namespace.' . $namespace, microtime());
+            $namespace = $this->namespace;
         }
+
+        $this->getObject()->set('namespace.' . $namespace, microtime());
     }
 
 
     /**
      * Retornando o key do namespace, se existir
      * Caso não exista, é criada uma nova key 
-     * 
-     * @static 
+     *  
      * @access public 
      * @return void 
      */ 
-    public static function getNamespaceKey( $namespace )
+    public function getNamespaceKey( $namespace )
     {
-        if( !$namespaceKey = self::get('namespace.' . $namespace) )
+        if( is_null( $namespace ) )
+        {
+            return $this->namespaceKey;
+        }
+
+        if( !$namespaceKey = $this->get('namespace.' . $namespace) )
         {
             $namespaceKey = microtime();
 
-            self::set('namespace.' . $namespace, $namespaceKey);
+            $this->set('namespace.' . $namespace, $namespaceKey);
         }
 
         return $namespaceKey;
@@ -234,13 +246,12 @@ class Cache
     /**
      * Setando o tempo de cache 
      * 
-     * @static 
      * @access public 
      * @param  int    $time 
      * @return void 
      */ 
-    public static function setTime( int $time )
+    public function setTime( int $time )
     {
-        self::$time = $time;
+        $this->time = $time;
     }
 }

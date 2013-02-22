@@ -16,7 +16,7 @@ class Driver
         'apc'       => 'EscapeWork\Cache\ApcDriver', 
     );
 
-    public static function get( array $options )
+    public static function get( $options )
     {
         if( isset( static::$availableDrivers[ $options['cache.driver'] ] ) )
         {

@@ -33,7 +33,7 @@ class Cache
     /**
      * Retornando a instância
      */
-    public static function getInstance( array $options )
+    public static function getInstance( $options )
     {
         if( is_null( static::$instance ) )
         {
@@ -47,7 +47,7 @@ class Cache
      * Construtor
      * @param string $driver com o tipo de driver desejado
      */
-    private function __construct( array $options )
+    private function __construct( $options )
     {
         static::setObject( Driver::get( $options ) );
     }

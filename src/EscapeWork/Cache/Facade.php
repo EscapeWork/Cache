@@ -12,7 +12,7 @@ class Facade
 
     public static $setValueByClosure = true;
 
-    public static function driver( array $options )
+    public static function driver( $options )
     {
         static::$options = $options;
         static::$cache   = Cache::getInstance( static::$options );

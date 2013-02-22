@@ -5,6 +5,11 @@ class ArrayDriver implements Cacheable
 
     private static $cache = array();
 
+    public function __construct()
+    {
+        
+    }
+
     public function set( $key, $value = null )
     {
         $value = serialize( $value );

@@ -4,6 +4,3 @@ language:
 php:
   - 5.3
   - 5.4
-
-script:
-  - "phpunit tests"

@@ -160,7 +160,7 @@ class Cache
     {
         if( is_callable( $callback ) )
         {
-            return call_user_func_array( $callback );
+            return call_user_func_array( $callback, array() );
         }
 
         return false;

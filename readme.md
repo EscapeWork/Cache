@@ -1,4 +1,4 @@
-# EscapeWork\Cache (Beta)
+# EscapeWork\Cache (Beta) [![Build Status](https://secure.travis-ci.org/EscapeWork/Cache.png)](http://travis-ci.org/EscapeWork/Cache)
 
 Em construção.
 

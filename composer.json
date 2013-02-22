@@ -18,7 +18,7 @@
     }, 
 
     "require-dev": {
-        "phpunit/phpunit": "@stable"
+        "phpunit/phpunit": "3.7.*"
     }, 
 
     "autoload": {

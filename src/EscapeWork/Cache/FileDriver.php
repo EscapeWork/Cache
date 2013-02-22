@@ -5,6 +5,11 @@ class FileDriver implements Cacheable
 
     private static $directory = null;
 
+    public function __construct( array $options )
+    {
+        static::setDirectory( $options['cache.path'] );
+    }
+
     public function set( $key, $value = null )
     {
         $value = serialize( $value );
@@ -26,7 +31,6 @@ class FileDriver implements Cacheable
         return false;
     }
 
-
     public function delete( $key )
     {
         $file = static::$directory . $this->buildFileName( $key );
@@ -36,7 +40,6 @@ class FileDriver implements Cacheable
             unlink( $file );
         }
     }
-
 
     public function flush()
     {
@@ -50,7 +53,6 @@ class FileDriver implements Cacheable
             }
         }
     }
-
 
     private function save( $file, $data )
     {

@@ -3,42 +3,43 @@
 class Facade
 {
 
-    public static $driver = 'file';
+    public static $options = array(
+        'cache.driver' => 'file', 
+        'cache.path'   => 'cache/'
+    );
+
+    private static $cache;
 
     public static $setValueByClosure = true;
 
-    public static function driver( $driver )
+    public static function driver( array $options )
     {
-        static::$driver = $driver;
+        static::$options = $options;
+        static::$cache   = Cache::getInstance( static::$options );
     }
 
     public static function set( $key, $value, $namespace = null )
     {
-        $cache = Cache::getInstance( static::$driver );
-        $cache->set( $key, $value, $namespace );
+        static::$cache->set( $key, $value, $namespace );
     }
 
     public static function get( $key, $callback = null, $namespace = null )
     {
-        $cache = Cache::getInstance( static::$driver );
-        return $cache->get( $key, $callback, $namespace );
+        return static::$cache->get( $key, $callback, $namespace );
     }
 
     public static function delete( $key )
     {
-        $cache = Cache::getInstance( static::$driver );
-        $cache->delete( $key );
+        static::$cache->delete( $key );
     }
 
     public static function flushNamespace( $namespace )
     {
-        $cache = Cache::getInstance( static::$driver );
-        $cache->flushNamespace( $namespace );
+        static::$cache->flushNamespace( $namespace );
     }
 
     public static function flush()
     {
-        $cache = Cache::getInstance( static::$driver );
-        $cache->flush();
+        static::$cache->flush();
     }
 }

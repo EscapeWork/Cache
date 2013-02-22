@@ -5,7 +5,10 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        FileDriver::setDirectory( 'cache' . DIRECTORY_SEPARATOR );
+        Facade::driver(array(
+            'cache.driver' => 'file', 
+            'cache.path'   => 'cache/', 
+        ));
     }
 
     public function assertPreConditions()

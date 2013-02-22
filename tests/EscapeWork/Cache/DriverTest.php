@@ -10,6 +10,11 @@ class DriverTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFileDriverShouldWork()
     {
-        $file = Driver::get('file');
+        $options = array(
+            'cache.driver' => 'file', 
+            'cache.path'   => 'cache/'
+        );
+
+        $file = Driver::get( $options );
     }
 }

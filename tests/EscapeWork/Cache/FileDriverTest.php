@@ -2,6 +2,8 @@
 
 class FileDriverTest extends \PHPUnit_Framework_TestCase
 {
+
+    public $file;
     
     public function assertPreConditions()
     {
@@ -10,27 +12,37 @@ class FileDriverTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        FileDriver::setDirectory( 'cache' . DIRECTORY_SEPARATOR );
+        $options = array(
+            'cache.path' => 'cache' . DIRECTORY_SEPARATOR
+        );
+
+        $this->file = new FileDriver( $options );
     }
 
     public function testAddValueToCacheShouldWork()
     {
-        $file = new FileDriver();
-        $file->set('key', 'value');
+        $this->file->set('key', 'value');
 
-        $this->assertEquals('value', $file->get('key'));
+        $this->assertEquals('value', $this->file->get('key'));
     }
 
     public function testGetNonExistingValueShouldWork()
     {
-        $file = new FileDriver();
+        $this->assertFalse( $this->file->get(null) );
+    }
 
-        $this->assertFalse( $file->get(null) );
+    public function testAddDeleteAndGetNonExistingValueShouldWork()
+    {
+        $this->file->set('foo', 'bar');
+        $this->assertEquals('bar', $this->file->get('foo'));
+
+        $this->file->delete('foo');
+
+        $this->assertFalse( $this->file->get('foo') );
     }
 
     public function tearDown()
     {
-        $file = new FileDriver();
-        $file->flush();
+        $this->file->flush();
     }
 }

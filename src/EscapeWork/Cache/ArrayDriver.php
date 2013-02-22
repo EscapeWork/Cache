@@ -13,7 +13,6 @@ class ArrayDriver implements Cacheable
         $this->save( $key, $value );
     }
 
-
     public function get( $key )
     {
         $key = $this->buildFileName( $key );
@@ -26,7 +25,6 @@ class ArrayDriver implements Cacheable
         return false;
     }
 
-
     public function delete( $key )
     {
         $key = $this->buildFileName( $key );
@@ -37,12 +35,10 @@ class ArrayDriver implements Cacheable
         }
     }
 
-
     public function flush()
     {
         static::$cache = array();
     }
-
 
     private function save( $key, $value )
     {

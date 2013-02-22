@@ -13,18 +13,15 @@ class Cache
      */ 
     private static $object;
 
-
     /**
      * Tempo de cache 
      */ 
     private $time = 36000; # 10 horas 
 
-
     /**
      * Driver do cache
      */
     private $driver = null;
-
 
     /**
      * Namespace do contexto atual 
@@ -33,30 +30,27 @@ class Cache
         $namespace    = null, 
         $namespaceKey = null;
 
-
     /**
      * Retornando a instância
      */
-    public static function getInstance($driver)
+    public static function getInstance( array $options )
     {
         if( is_null( static::$instance ) )
         {
-            return static::$instance = new Cache($driver);
+            return static::$instance = new Cache($options);
         }
 
         return static::$instance;
     }
 
-
     /**
      * Construtor
      * @param string $driver com o tipo de driver desejado
      */
-    private function __construct($driver)
+    private function __construct( array $options )
     {
-        static::setObject( Driver::get( $driver ) );
+        static::setObject( Driver::get( $options ) );
     }
-
 
     /**
      * Setando o namespace do contexto atual
@@ -71,7 +65,6 @@ class Cache
         $this->namespaceKey = $this->getNamespaceKey( $namespace );
     }
 
-
     /**
      * Limpando o namespace 
      * 
@@ -83,7 +76,6 @@ class Cache
         $this->namespace    = null;
         $this->namespaceKey = null;
     }
-
 
     /**
      * Setando o objeto 
@@ -97,7 +89,6 @@ class Cache
         static::$object = $object;
     }
 
-
     /**
      * Retornando o objeto 
      */
@@ -105,7 +96,6 @@ class Cache
     {
         return static::$object;
     }
-
 
     /**
      * Setando uma configuração do cache 
@@ -124,7 +114,6 @@ class Cache
 
         $this->getObject()->set( $namespaceKey . $key, $value );
     }
-
 
     /**
      * Retornando uma configuração do cache 
@@ -153,7 +142,6 @@ class Cache
         return $value;
     }
 
-
     /**
      * Executando uma função de callback
      *
@@ -171,7 +159,6 @@ class Cache
         return false;
     }
 
-
     /**
      * Deletando um registro do cache 
      * 
@@ -184,7 +171,6 @@ class Cache
         return $this->getObject()->delete( $this->namespaceKey . $key );
     }
 
-
     /**
      * Fazendo o flush de todos os registros no cache 
      * 
@@ -196,7 +182,6 @@ class Cache
     {
         return $this->getObject()->flush();
     }
-
 
     /**
      * Incrementando um namespace
@@ -213,7 +198,6 @@ class Cache
 
         $this->getObject()->set('namespace.' . $namespace, time());
     }
-
 
     /**
      * Retornando o key do namespace, se existir
@@ -238,7 +222,6 @@ class Cache
 
         return $namespaceKey;
     }
-
 
     /**
      * Setando o tempo de cache 

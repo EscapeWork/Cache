@@ -28,13 +28,15 @@ Cache::flush();
 
 ### Tipos de cache disponíveis
 
+- Memcached
+- APC
 - File
 - Array (Para testes unitários)
 
 ```php
 use EscapeWork\Cache\Facade as Cache;
 
-Cache::driver('memcached');
+Cache::driver('memcached'); # memcached, apc, file or array
 ```
 
 ### Instalação 

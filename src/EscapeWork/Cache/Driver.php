@@ -10,7 +10,7 @@ class Driver
      */
     private static $availableDrivers = array(
         'file'      => 'EscapeWork\Cache\FileDriver', 
-        'array'     => 'EscapeWork\Cache\FileDriver', 
+        'array'     => 'EscapeWork\Cache\ArrayDriver', 
     );
 
 

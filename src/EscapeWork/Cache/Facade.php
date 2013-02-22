@@ -7,7 +7,7 @@ class Facade
 
     public static $setValueByClosure = true;
 
-    public static function setDriver( $driver )
+    public static function driver( $driver )
     {
         static::$driver = $driver;
     }

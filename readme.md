@@ -34,7 +34,7 @@ Cache::flush();
 ```php
 use EscapeWork\Cache\Facade as Cache;
 
-Cache::setDriver('memcached');
+Cache::driver('memcached');
 ```
 
 ### Instalação 

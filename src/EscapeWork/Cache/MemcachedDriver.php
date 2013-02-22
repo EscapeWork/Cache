@@ -16,10 +16,13 @@ class MemcachedDriver implements Cacheable
 
     private function connect()
     {
-        $this->object->connect( 
-            $this->options['cache.memcached.host'], 
-            $this->options['cache.memcached.port'] 
-        );
+        foreach( $this->options['cache.memcached'] as $server )
+        {
+            $this->object->connect( 
+                $server['host'], 
+                $server['port'] 
+            );
+        }
     }
 
     public function set( $key, $value = null )

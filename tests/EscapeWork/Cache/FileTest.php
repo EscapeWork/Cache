@@ -25,18 +25,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     {
         $file = new File();
 
-        $this->assertNull( $file->get(null) );
-    }
-
-    public function testSetValueByClosureInGetShouldWork()
-    {
-        $file = new File();
-
-        $file->get('newKey', function() {
-            return 'value';
-        });
-
-        $this->assertEquals('value', $file->get('newKey'));
+        $this->assertFalse( $file->get(null) );
     }
 
     public function tearDown()

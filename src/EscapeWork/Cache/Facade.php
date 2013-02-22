@@ -12,13 +12,13 @@ class Facade
     public static function set( $key, $value, $namespace = null )
     {
         $cache = Cache::getInstance( static::$driver );
-        $cache->set( $key, $value, $namespace = null );
+        $cache->set( $key, $value, $namespace );
     }
 
     public static function get( $key, $callback = null, $namespace = null )
     {
         $cache = Cache::getInstance( static::$driver );
-        $cache->get( $key, $callback = null, $namespace = null );
+        return $cache->get( $key, $callback, $namespace );
     }
 
     public static function delete( $key )

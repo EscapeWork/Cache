@@ -67,8 +67,7 @@ class Cache
      */ 
     public function setNamespace( $namespace )
     {
-        $this->namespace = $namespace;
-
+        $this->namespace    = $namespace;
         $this->namespaceKey = $this->getNamespaceKey( $namespace );
     }
 
@@ -81,7 +80,8 @@ class Cache
      */ 
     public function clearNamespace()
     {
-        $this->namespace = null;
+        $this->namespace    = null;
+        $this->namespaceKey = null;
     }
 
 
@@ -120,14 +120,7 @@ class Cache
      */ 
     public function set( $key, $value, $namespace = null )
     {
-        if( is_null( $namespace ) )
-        {
-            $namespaceKey = $this->namespaceKey;
-        }
-        else
-        {
-            $namespaceKey = $this->getNamespaceKey( $namespace );
-        }
+        $namespaceKey = $this->getNamespaceKey( $namespace );
 
         $this->getObject()->set( $namespaceKey . $key, $value );
     }
@@ -213,7 +206,7 @@ class Cache
             $namespace = $this->namespace;
         }
 
-        $this->getObject()->set('namespace.' . $namespace, microtime());
+        $this->getObject()->set('namespace.' . $namespace, time());
     }
 
 
@@ -233,7 +226,7 @@ class Cache
 
         if( !$namespaceKey = $this->get('namespace.' . $namespace) )
         {
-            $namespaceKey = microtime();
+            $namespaceKey = time();
 
             $this->set('namespace.' . $namespace, $namespaceKey);
         }

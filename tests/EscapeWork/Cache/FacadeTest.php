@@ -5,7 +5,7 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        File::setDirectory( 'cache' . DIRECTORY_SEPARATOR );
+        FileDriver::setDirectory( 'cache' . DIRECTORY_SEPARATOR );
     }
 
     public function assertPreConditions()

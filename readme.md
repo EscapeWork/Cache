@@ -28,10 +28,8 @@ Cache::flush();
 
 ### Tipos de cache disponíveis
 
-- Memcached
-- Redis
-- APC
 - File
+- Array (Para testes unitários)
 
 ```php
 use EscapeWork\Cache\Facade as Cache;

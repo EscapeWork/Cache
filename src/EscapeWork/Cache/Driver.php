@@ -9,12 +9,8 @@ class Driver
      * Available drivers 
      */
     private static $availableDrivers = array(
-        'memcached' => '\Memcached', 
-        'memcache'  => '\Memcache', 
-        'redis'     => '', 
-        'apc'       => 'EscapeWork\Cache\Apc', 
-        'file'      => 'EscapeWork\Cache\File', 
-        'array'     => 'Array', 
+        'file'      => 'EscapeWork\Cache\FileDriver', 
+        'array'     => 'EscapeWork\Cache\FileDriver', 
     );
 
 

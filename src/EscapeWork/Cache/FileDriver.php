@@ -1,6 +1,6 @@
 <?php namespace EscapeWork\Cache;
 
-class File implements Cacheable
+class FileDriver implements Cacheable
 {
 
     private static $directory = null;

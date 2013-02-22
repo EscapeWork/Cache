@@ -2,7 +2,10 @@
 
 class Facade
 {
+
     public static $driver = 'file';
+
+    public static $setValueByClosure = true;
 
     public static function setDriver( $driver )
     {

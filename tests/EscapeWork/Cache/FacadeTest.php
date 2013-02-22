@@ -27,6 +27,15 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('value', Facade::get('key', null, 'cache'));
     }
 
+    public function testSetValueByClosureInGetFunction()
+    {
+        $value = Facade::get('foo', function() {
+            return 'bar';
+        });
+
+        $this->assertEquals('bar', Facade::get('foo'));
+    }
+
     public function tearDown()
     {
         Facade::flush();

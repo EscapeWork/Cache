@@ -143,6 +143,11 @@ class Cache
         if( $value === false )
         {
             $value = $this->execute( $callback );
+
+            if( $value !== false && Facade::$setValueByClosure === true )
+            {
+                $this->set( $key, $value, $namespace );
+            }
         }
 
         return $value;

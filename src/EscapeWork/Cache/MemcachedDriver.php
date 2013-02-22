@@ -7,7 +7,7 @@ class MemcachedDriver implements Cacheable
 
     protected $object, $options;
 
-    public function __construct( array $options )
+    public function __construct( $options )
     {
         $this->options = $options;
         $this->object  = new Memcache();

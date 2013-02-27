@@ -7,7 +7,7 @@ class FileDriver implements Cacheable
 
     public function __construct( $options )
     {
-        static::setDirectory( $options['cache.path'] );
+        static::setDirectory( $options['path'] );
     }
 
     public function set( $key, $value = null )

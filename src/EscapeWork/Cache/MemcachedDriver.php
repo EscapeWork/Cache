@@ -16,7 +16,7 @@ class MemcachedDriver implements Cacheable
 
     private function connect()
     {
-        foreach( $this->options['cache.memcached'] as $server )
+        foreach( $this->options['memcached'] as $server )
         {
             $this->object->connect( 
                 $server['host'], 

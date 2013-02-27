@@ -18,14 +18,14 @@ class Driver
 
     public static function get( $options )
     {
-        if( isset( static::$availableDrivers[ $options['cache.driver'] ] ) )
+        if( isset( static::$availableDrivers[ $options['driver'] ] ) )
         {
-            $object = new ReflectionClass( static::$availableDrivers[ $options['cache.driver'] ] );
+            $object = new ReflectionClass( static::$availableDrivers[ $options['driver'] ] );
             return $object->newInstance( $options );
         }
         else
         {
-            throw new InvalidArgumentException("Driver " . $options['cache.driver'] . " not found!");
+            throw new InvalidArgumentException("Driver " . $options['driver'] . " not found!");
         }
     }
 }

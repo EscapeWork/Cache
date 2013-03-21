@@ -13,7 +13,7 @@ class FileDriverTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $options = array(
-            'cache.path' => 'cache' . DIRECTORY_SEPARATOR
+            'path' => 'cache' . DIRECTORY_SEPARATOR
         );
 
         $this->file = new FileDriver( $options );

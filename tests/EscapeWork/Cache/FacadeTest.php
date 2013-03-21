@@ -6,8 +6,8 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         Facade::driver(array(
-            'cache.driver' => 'file', 
-            'cache.path'   => 'cache/', 
+            'driver' => 'file', 
+            'path'   => 'cache/', 
         ));
     }
 

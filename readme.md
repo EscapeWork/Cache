@@ -46,7 +46,7 @@ A instalação está disponível via [Composer](https://packagist.org/packages/e
 ```
 {
     "require": {
-        "escapework/cache": "dev-master"
+        "escapework/cache": "0.1.*"
     }
 }
 ```

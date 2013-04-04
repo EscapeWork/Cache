@@ -2,6 +2,11 @@
 
 class ApcDriver implements Cacheable
 {
+
+    public function __construct()
+    {
+
+    }
     
     public function set($key, $value = null)
     {

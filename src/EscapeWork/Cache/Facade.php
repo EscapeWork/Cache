@@ -18,28 +18,8 @@ class Facade
         static::$cache   = Cache::getInstance(static::$options);
     }
 
-    public static function set($key, $value, $namespace = null)
+    public static function __callStatic($method, $parameters)
     {
-        static::$cache->set($key, $value, $namespace);
-    }
-
-    public static function get($key, $callback = null, $namespace = null)
-    {
-        return static::$cache->get($key, $callback, $namespace);
-    }
-
-    public static function delete($key)
-    {
-        static::$cache->delete($key);
-    }
-
-    public static function flushNamespace($namespace)
-    {
-        static::$cache->flushNamespace($namespace);
-    }
-
-    public static function flush()
-    {
-        static::$cache->flush();
+        return call_user_func_array(array(static::$cache, $method), $parameters);
     }
 }

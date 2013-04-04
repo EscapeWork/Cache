@@ -7,7 +7,7 @@ class MemcachedDriver implements Cacheable
 
     protected $object, $options;
 
-    public function __construct( $options )
+    public function __construct($options)
     {
         $this->options = $options;
         $this->object  = new Memcache();
@@ -16,26 +16,25 @@ class MemcachedDriver implements Cacheable
 
     private function connect()
     {
-        foreach( $this->options['memcached'] as $server )
-        {
-            $this->object->connect( 
+        foreach ($this->options['memcached'] as $server) {
+            $this->object->connect(
                 $server['host'], 
                 $server['port'] 
             );
         }
     }
 
-    public function set( $key, $value = null )
+    public function set($key, $value = null)
     {
         $this->object->set($key, $value);
     }
 
-    public function get( $key )
+    public function get($key)
     {
         return $this->object->get($key);
     }
 
-    public function delete( $key )
+    public function delete($key)
     {
         return $this->object->delete($key);
     }

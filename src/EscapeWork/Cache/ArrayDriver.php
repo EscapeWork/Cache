@@ -5,6 +5,11 @@ class ArrayDriver implements Cacheable
 
     private static $cache = array();
 
+    public function __construct()
+    {
+        
+    }
+
     public function set($key, $value = null)
     {
         $value = serialize($value);
@@ -26,7 +31,7 @@ class ArrayDriver implements Cacheable
 
     public function delete($key)
     {
-        $key = $this->buildFileName( $key );
+        $key = $this->buildFileName($key);
 
         if (isset(static::$cache[$key]))
         {

@@ -109,7 +109,7 @@ class Cache
      */ 
     public function set($key, $value, $namespace = null)
     {
-        $namespaceKey = $this->getNamespaceKey( $namespace );
+        $namespaceKey = $this->getNamespaceKey($namespace);
 
         $this->getObject()->set($namespaceKey . $key, $value);
     }
@@ -191,7 +191,7 @@ class Cache
             $namespace = $this->namespace;
         }
 
-        $this->setNamespaceKey('namespace.' . $namespace);
+        $this->setNamespaceKey($namespace);
     }
 
     /**
@@ -208,7 +208,7 @@ class Cache
         }
 
         if (! $namespaceKey = $this->get('namespace.' . $namespace)) {
-            $this->setNamespaceKey('namespace.' . $namespace);
+            $namespaceKey = $this->setNamespaceKey($namespace);
         }
 
         return $namespaceKey;
@@ -218,11 +218,15 @@ class Cache
      * Setting the namespace key
      *
      * @access  public
-     * @return  void
+     * @return  string (md5)
      */
     public function setNamespaceKey($key)
     {
-        $this->getObject()->set($key, md5(microtime()));
+        $namespaceKey = md5(microtime());
+
+        $this->getObject()->set('namespace.' . $key, $namespaceKey);
+
+        return $namespaceKey;
     }
 
     /**

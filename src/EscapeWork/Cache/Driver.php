@@ -16,15 +16,12 @@ class Driver
         'apc'       => 'EscapeWork\Cache\ApcDriver', 
     );
 
-    public static function get( $options )
+    public static function get($options)
     {
-        if( isset( static::$availableDrivers[ $options['driver'] ] ) )
-        {
-            $object = new ReflectionClass( static::$availableDrivers[ $options['driver'] ] );
-            return $object->newInstance( $options );
-        }
-        else
-        {
+        if (isset(static::$availableDrivers[$options['driver']])) {
+            $object = new ReflectionClass(static::$availableDrivers[$options['driver']]);
+            return $object->newInstance($options);
+        } else {
             throw new InvalidArgumentException("Driver " . $options['driver'] . " not found!");
         }
     }

@@ -33,10 +33,9 @@ class Cache
     /**
      * Retornando a instância
      */
-    public static function getInstance( $options )
+    public static function getInstance($options)
     {
-        if( is_null( static::$instance ) )
-        {
+        if (is_null(static::$instance)) {
             return static::$instance = new Cache($options);
         }
 
@@ -47,9 +46,9 @@ class Cache
      * Construtor
      * @param string $driver com o tipo de driver desejado
      */
-    private function __construct( $options )
+    private function __construct($options)
     {
-        static::setObject( Driver::get( $options ) );
+        static::setObject(Driver::get($options));
     }
 
     /**
@@ -59,10 +58,10 @@ class Cache
      * @param  string $namespace 
      * @return void 
      */ 
-    public function setNamespace( $namespace )
+    public function setNamespace($namespace)
     {
         $this->namespace    = $namespace;
-        $this->namespaceKey = $this->getNamespaceKey( $namespace );
+        $this->namespaceKey = $this->getNamespaceKey($namespace);
     }
 
     /**
@@ -84,7 +83,7 @@ class Cache
      * @param object $object 
      * @return void 
      */ 
-    public static function setObject( $object )
+    public static function setObject($object)
     {
         static::$object = $object;
     }
@@ -108,11 +107,11 @@ class Cache
      * @param string $namespaceKey 
      * @return mixed 
      */ 
-    public function set( $key, $value, $namespace = null )
+    public function set($key, $value, $namespace = null)
     {
         $namespaceKey = $this->getNamespaceKey( $namespace );
 
-        $this->getObject()->set( $namespaceKey . $key, $value );
+        $this->getObject()->set($namespaceKey . $key, $value);
     }
 
     /**
@@ -123,19 +122,17 @@ class Cache
      * @param  string $namespaceKey 
      * @return mixed 
      */ 
-    public function get( $key, $callback = null, $namespace = null )
+    public function get($key, $callback = null, $namespace = null)
     {
-        $namespaceKey = $this->getNamespaceKey( $namespace );
+        $namespaceKey = $this->getNamespaceKey($namespace);
 
-        $value = $this->getObject()->get( $namespaceKey . $key );
+        $value = $this->getObject()->get($namespaceKey . $key);
 
-        if( $value === false )
-        {
-            $value = $this->execute( $callback );
+        if ($value === false) {
+            $value = $this->execute($callback);
 
-            if( $value !== false && Facade::$setValueByClosure === true )
-            {
-                $this->set( $key, $value, $namespace );
+            if ($value !== false && Facade::$setValueByClosure === true) {
+                $this->set($key, $value, $namespace);
             }
         }
 
@@ -149,11 +146,10 @@ class Cache
      * @param   closure $callback
      * @return  mixed
      */
-    private function execute( $callback )
+    private function execute($callback)
     {
-        if( is_callable( $callback ) )
-        {
-            return call_user_func_array( $callback, array() );
+        if (is_callable($callback)) {
+            return call_user_func_array($callback, array());
         }
 
         return false;
@@ -166,9 +162,9 @@ class Cache
      * @param  string $key 
      * @return mixed 
      */ 
-    public function delete( $key )
+    public function delete($key)
     {
-        return $this->getObject()->delete( $this->namespaceKey . $key );
+        return $this->getObject()->delete($this->namespaceKey . $key);
     }
 
     /**
@@ -189,14 +185,13 @@ class Cache
      * @access public 
      * @return void 
      */ 
-    public function flushNamespace( $namespace = null )
+    public function flushNamespace($namespace = null)
     {
-        if( is_null( $namespace ) )
-        {
+        if (is_null($namespace)) {
             $namespace = $this->namespace;
         }
 
-        $this->getObject()->set('namespace.' . $namespace, time());
+        $this->setNamespaceKey('namespace.' . $namespace);
     }
 
     /**
@@ -206,21 +201,28 @@ class Cache
      * @access public 
      * @return void 
      */ 
-    public function getNamespaceKey( $namespace )
+    public function getNamespaceKey($namespace)
     {
-        if( is_null( $namespace ) )
-        {
+        if (is_null($namespace)) {
             return $this->namespaceKey;
         }
 
-        if( !$namespaceKey = $this->get('namespace.' . $namespace) )
-        {
-            $namespaceKey = time();
-
-            $this->set('namespace.' . $namespace, $namespaceKey);
+        if (! $namespaceKey = $this->get('namespace.' . $namespace)) {
+            $this->setNamespaceKey('namespace.' . $namespace);
         }
 
         return $namespaceKey;
+    }
+
+    /**
+     * Setting the namespace key
+     *
+     * @access  public
+     * @return  void
+     */
+    public function setNamespaceKey($key)
+    {
+        $this->getObject()->set($key, md5(microtime()));
     }
 
     /**
@@ -230,7 +232,7 @@ class Cache
      * @param  int    $time 
      * @return void 
      */ 
-    public function setTime( int $time )
+    public function setTime(int $time)
     {
         $this->time = $time;
     }

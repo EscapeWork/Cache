@@ -12,30 +12,30 @@ class Facade
 
     public static $setValueByClosure = true;
 
-    public static function driver( $options )
+    public static function driver($options)
     {
         static::$options = $options;
-        static::$cache   = Cache::getInstance( static::$options );
+        static::$cache   = Cache::getInstance(static::$options);
     }
 
-    public static function set( $key, $value, $namespace = null )
+    public static function set($key, $value, $namespace = null)
     {
-        static::$cache->set( $key, $value, $namespace );
+        static::$cache->set($key, $value, $namespace);
     }
 
-    public static function get( $key, $callback = null, $namespace = null )
+    public static function get($key, $callback = null, $namespace = null)
     {
-        return static::$cache->get( $key, $callback, $namespace );
+        return static::$cache->get($key, $callback, $namespace);
     }
 
-    public static function delete( $key )
+    public static function delete($key)
     {
-        static::$cache->delete( $key );
+        static::$cache->delete($key);
     }
 
-    public static function flushNamespace( $namespace )
+    public static function flushNamespace($namespace)
     {
-        static::$cache->flushNamespace( $namespace );
+        static::$cache->flushNamespace($namespace);
     }
 
     public static function flush()

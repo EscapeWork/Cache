@@ -5,38 +5,32 @@ class ArrayDriver implements Cacheable
 
     private static $cache = array();
 
-    public function __construct()
+    public function set($key, $value = null)
     {
-        
+        $value = serialize($value);
+        $key   = $this->buildFileName($key);
+
+        $this->save($key, $value);
     }
 
-    public function set( $key, $value = null )
+    public function get($key)
     {
-        $value = serialize( $value );
-        $key   = $this->buildFileName( $key );
+        $key = $this->buildFileName($key);
 
-        $this->save( $key, $value );
-    }
-
-    public function get( $key )
-    {
-        $key = $this->buildFileName( $key );
-
-        if( isset( static::$cache[ $key ] ) )
-        {
-            return unserialize( static::$cache[ $key ] );
+        if (isset(static::$cache[$key])) {
+            return unserialize(static::$cache[$key]);
         }
 
         return false;
     }
 
-    public function delete( $key )
+    public function delete($key)
     {
         $key = $this->buildFileName( $key );
 
-        if( isset( static::$cache[ $key ] ) )
+        if (isset(static::$cache[$key]))
         {
-            unset( static::$cache[ $key ] );
+            unset(static::$cache[$key]);
         }
     }
 
@@ -45,13 +39,13 @@ class ArrayDriver implements Cacheable
         static::$cache = array();
     }
 
-    private function save( $key, $value )
+    private function save($key, $value)
     {
-        static::$cache[ $key ] = $value;
+        static::$cache[$key] = $value;
     }
 
-    private function buildFileName( $key )
+    private function buildFileName($key)
     {
-        return md5( $key );
+        return md5($key);
     }
 }

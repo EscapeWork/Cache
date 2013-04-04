@@ -2,20 +2,15 @@
 
 class ApcDriver implements Cacheable
 {
-
-    public function __construct()
-    {
-        
-    }
     
-    public function set( $key, $value = null )
+    public function set($key, $value = null)
     {
         apc_add($key, $value);
     }
 
     public function get( $key )
     {
-        apc_fetch($key);
+        return apc_fetch($key);
     }
 
     public function delete( $key )

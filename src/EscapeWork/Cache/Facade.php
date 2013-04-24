@@ -4,8 +4,8 @@ class Facade
 {
 
     public static $options = array(
-        'cache.driver' => 'file', 
-        'cache.path'   => 'cache/'
+        'driver' => 'file', 
+        'path'   => 'cache/'
     );
 
     private static $cache;

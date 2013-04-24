@@ -33,10 +33,22 @@ Cache::flush();
 - File
 - Array (Para testes unitários)
 
+### Configuração
+
 ```php
 use EscapeWork\Cache\Facade as Cache;
 
-Cache::driver('memcached'); # memcached, apc, file or array
+Cache::driver(array(
+    'driver' => 'memcached', 
+    'memcached' => array(
+        array('host' => 'your-host', 'port' => 11211) # server settings 
+    ), 
+));
+
+Cache::driver(array(
+    'driver' => 'file', 
+    'path'   => '/path/to/your/cache/dir/', 
+));
 ```
 
 ### Instalação 

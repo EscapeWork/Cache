@@ -44,7 +44,7 @@ class FileDriver implements Cacheable
         $files = new \DirectoryIterator(static::$directory);
 
         foreach ($files as $file) {
-            if (! $file->isDir()) {
+            if (! $file->isDir() && ! $file->isDot()) {
                 unlink(static::$directory . $file->getFilename());
             }
         }
